@@ -1,6 +1,6 @@
 {
   "name": "html2console",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "converts html styled strings to console output",
   "main": "index.js",
   "scripts": {
