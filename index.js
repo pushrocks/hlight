@@ -182,7 +182,7 @@ function applyStyle(textNode) {
   }, 0);
 
   var bgColor = findStyle(textNode, 'backgroundColor');
-  if (bgColor) {
+  if (false) {
     bgColor = nearestColor(bgColor);
     if (bgColor) {
       var bgSequence = getBGColorSequence(bgColor.name);
