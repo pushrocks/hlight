@@ -1,0 +1,28 @@
+{
+  "name": "html2console",
+  "version": "0.0.2",
+  "description": "converts html styled strings to console output",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script/register"
+  },
+  "keywords": [
+    "html",
+    "console"
+  ],
+  "author": "Lossless Digital UG (haftungsbeschraenkt)",
+  "license": "MIT",
+  "dependencies": {
+    "jsdom": "~8.0.1",
+    "nearest-color": "0.4.0",
+    "writer.js": "^0.1.0"
+  },
+  "devDependencies": {
+    "coffee-script": "~1.10.0",
+    "console-highlight": ">= 0.1.0",
+    "highlight.js": "~9.1.0",
+    "juxtapose": "~0.1.1",
+    "mocha": "~2.4.5",
+    "should": "~8.2.1"
+  }
+}
