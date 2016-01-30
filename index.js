@@ -352,7 +352,7 @@ function isBetweenBlocks(node) {
 }
 
 function addToBuffer(buffer, text, writer) {
-  if (!text) { return; }
+  if (typeof text === "undefined") { return; }
   buffer.push(text);
   writer.write(text);
 }
@@ -407,7 +407,4 @@ function pad(string, width) {
   }
   return string;
 }
-
-htmlout.VERSION = '0.2.0';
-
 module.exports = htmlout;
