@@ -182,8 +182,8 @@ function applyStyle(textNode) {
   }, 0);
 
   var bgColor = findStyle(textNode, 'backgroundColor');
-  if (false) {
-    bgColor = nearestColor(bgColor);
+  if (bgColor) {
+    bgColor = nearestColor("#ffffff");
     if (bgColor) {
       var bgSequence = getBGColorSequence(bgColor.name);
       lines = applySequence(lines, bgSequence, maxLineLength);
@@ -352,7 +352,7 @@ function isBetweenBlocks(node) {
 }
 
 function addToBuffer(buffer, text, writer) {
-  if (typeof text === "undefined") { return; }
+  if (!text) { return; }
   buffer.push(text);
   writer.write(text);
 }
@@ -407,4 +407,7 @@ function pad(string, width) {
   }
   return string;
 }
+
+htmlout.VERSION = '0.2.0';
+
 module.exports = htmlout;
