@@ -4,7 +4,7 @@
   "description": "converts html styled strings to console output",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "(npmts)"
   },
   "keywords": [
     "html",
@@ -23,7 +23,7 @@
     "console-highlight": ">= 0.1.0",
     "highlight.js": "~9.1.0",
     "juxtapose": "~0.1.1",
-    "mocha": "~2.4.5",
+    "npmts": "2.0.2",
     "should": "~8.2.1"
   }
 }
