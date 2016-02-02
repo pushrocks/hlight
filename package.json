@@ -1,6 +1,6 @@
 {
   "name": "hlight",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "converts html styled strings to console output",
   "main": "index.js",
   "scripts": {
