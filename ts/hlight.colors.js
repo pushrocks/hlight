@@ -59,4 +59,4 @@ var styleSequences = {
     underline: ['\x1B[4m', '\x1B[24m'],
     strikethrough: ['\x1B[9m', '\x1B[29m']
 };
-//# sourceMappingURL=h2c.colors.js.map
+//# sourceMappingURL=hlight.colors.js.map

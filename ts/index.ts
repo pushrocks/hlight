@@ -1,6 +1,6 @@
 /// <reference path="./typings/main.d.ts" />
-/// <reference path="./h2c.plugins.ts" />
-/// <reference path="./h2c.colors.ts" />
+/// <reference path="./hlight.plugins.ts" />
+/// <reference path="./hlight.colors.ts" />
 
 
 var defaultStylesheet =

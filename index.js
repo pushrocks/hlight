@@ -63,8 +63,8 @@ var styleSequences = {
     strikethrough: ['\x1B[9m', '\x1B[29m']
 };
 /// <reference path="./typings/main.d.ts" />
-/// <reference path="./h2c.plugins.ts" />
-/// <reference path="./h2c.colors.ts" />
+/// <reference path="./hlight.plugins.ts" />
+/// <reference path="./hlight.colors.ts" />
 var defaultStylesheet = 'div, h1, h2, h3, h4, h5, h6, p, pre { display: block; }\n' +
     'b, strong { font-weight: bold; }\n' +
     'i, em { font-style: italic; }\n' +
