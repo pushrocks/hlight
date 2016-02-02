@@ -327,4 +327,16 @@ function pad(string, width) {
     return string;
 }
 
-module.exports = html2console;
+var hlight = function(code:string,language:string) {
+    var hljs = require('highlight.js');
+    var html;
+    if (typeof language === "undefined") {
+        html = (hljs.highlight(language, code)).value;
+    }
+    else {
+        html = (hljs.highlightAuto(code)).value;
+    };
+    return html2console('<pre class="hljs">' + html + '</pre>');
+};
+
+module.exports = hlight;
