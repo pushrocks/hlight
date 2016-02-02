@@ -1,76 +1,22 @@
-#!/usr/bin/env node
+/// <reference path="./index.ts" />
 
-/// <reference path="./index.ts" /> 
-/// <reference path="./index.ts" />
-var supportedColors = {
-    white: '#fff',
-    black: '#000',
-    red: '#cd0000',
-    green: '#00cd00',
-    yellow: '#cdcd00',
-    blue: '#1e90ff',
-    magenta: '#cd00cd',
-    cyan: '#00cdcd',
-    lightGrey: '#e5e5e5',
-    darkGrey: '#4c4c4c',
-    lightRed: '#f00',
-    lightGreen: '#0f0',
-    lightYellow: '#ff0',
-    lightBlue: '#4682b4',
-    lightMagenta: '#f0f',
-    lightCyan: '#0ff'
-};
-var colorSequences = {
-    white: ['\x1B[39m', '\x1B[39m'],
-    black: ['\x1B[30m', '\x1B[39m'],
-    red: ['\x1B[31m', '\x1B[39m'],
-    green: ['\x1B[32m', '\x1B[39m'],
-    yellow: ['\x1B[33m', '\x1B[39m'],
-    blue: ['\x1B[34m', '\x1B[39m'],
-    magenta: ['\x1B[35m', '\x1B[39m'],
-    cyan: ['\x1B[36m', '\x1B[39m'],
-    lightGrey: ['\x1B[37m', '\x1B[39m'],
-    darkGrey: ['\x1B[90m', '\x1B[39m'],
-    lightRed: ['\x1B[91m', '\x1B[39m'],
-    lightGreen: ['\x1B[92m', '\x1B[39m'],
-    lightYellow: ['\x1B[93m', '\x1B[39m'],
-    lightBlue: ['\x1B[94m', '\x1B[39m'],
-    lightMagenta: ['\x1B[95m', '\x1B[39m'],
-    lightCyan: ['\x1B[96m', '\x1B[39m']
-};
-var bgColorSequences = {
-    white: ['\x1B[107m', '\x1B[49m'],
-    black: ['\x1B[40m', '\x1B[49m'],
-    red: ['\x1B[41m', '\x1B[49m'],
-    green: ['\x1B[42m', '\x1B[49m'],
-    yellow: ['\x1B[43m', '\x1B[49m'],
-    blue: ['\x1B[44m', '\x1B[49m'],
-    magenta: ['\x1B[45m', '\x1B[49m'],
-    cyan: ['\x1B[46m', '\x1B[49m'],
-    lightGrey: ['\x1B[47m', '\x1B[49m'],
-    darkGrey: ['\x1B[100m', '\x1B[49m'],
-    lightRed: ['\x1B[101m', '\x1B[49m'],
-    lightGreen: ['\x1B[102m', '\x1B[49m'],
-    lightYellow: ['\x1B[103m', '\x1B[49m'],
-    lightBlue: ['\x1B[104m', '\x1B[49m'],
-    lightMagenta: ['\x1B[105m', '\x1B[49m'],
-    lightCyan: ['\x1B[106m', '\x1B[49m']
-};
-var styleSequences = {
-    bold: ['\x1B[1m', '\x1B[22m'],
-    italic: ['\x1B[3m', '\x1B[23m'],
-    underline: ['\x1B[4m', '\x1B[24m'],
-    strikethrough: ['\x1B[9m', '\x1B[29m']
-};
-/// <reference path="./index.ts" />
-var defaultStylesheet = 'div, h1, h2, h3, h4, h5, h6, p, pre { display: block; }\n' +
+var defaultStylesheet =
+    'div, h1, h2, h3, h4, h5, h6, p, pre { display: block; }\n' +
     'b, strong { font-weight: bold; }\n' +
     'i, em { font-style: italic; }\n' +
     'u { text-decoration: underline; }\n' +
     'del, strike { text-decoration: strikethrough; }\n' +
     'pre { white-space: pre; }';
-var fs = require('fs'), path = require('path'), jsdom = require('jsdom').jsdom, ConsoleWriter = require('writer.js').ConsoleWriter;
-var extendedColorsFile = path.join(__dirname, 'data', 'extendedColors.json'), extendedColors = JSON.parse(fs.readFileSync(extendedColorsFile, 'utf8')), nearestColor = require('nearest-color').from(supportedColors).or(invert(extendedColors));
+
+var fs = require('fs'),
+    path = require('path'),
+    jsdom = require('jsdom').jsdom,
+    ConsoleWriter = require('writer.js').ConsoleWriter;
+
+var extendedColorsFile = path.join(__dirname, 'data', 'extendedColors.json'),
+    extendedColors = JSON.parse(fs.readFileSync(extendedColorsFile, 'utf8')),
+    nearestColor = require('nearest-color').from(supportedColors).or(invert(extendedColors));
+
 /**
  * Takes in HTML and writes out text w/ escape sequences to style the text for
  * console output.
@@ -83,26 +29,30 @@ function htmlout(html, options) {
     var doc = jsdom('<html><head></head><body></body></html>');
     options.writer = new ConsoleWriter();
     options.css.unshift(defaultStylesheet);
-    options.css.forEach(function (css) {
+    options.css.forEach(function(css) {
         var styleNode = doc.createElement('STYLE');
         styleNode.textContent = css;
         doc.head.appendChild(styleNode);
     });
+
     doc.body.innerHTML = html;
+
     var buffer = [];
-    forEach(doc.body.childNodes, function (node) {
+    forEach(doc.body.childNodes, function(node) {
         output(node, buffer, options.writer);
     });
 }
-var html2console = (function () {
+
+var html2console = (function() {
     var css = fs.readFileSync("./data/code.css");
-    return function (html) {
-        var options = {};
+    return function(html) {
+        var options:any = {};
         options.css = [];
         options.css.push(css);
         return htmlout(html, options);
     };
 })();
+
 /**
  * It appears that I have done something weird here and actually implemented
  * logic that makes use of the buffer, so I can't just get rid of it. (Well, I'm
@@ -116,39 +66,49 @@ function output(node, buffer, writer) {
     if (node.nodeName === 'STYLE' || node.nodeName === 'SCRIPT') {
         return;
     }
+
     if (hasChildren(node)) {
-        forEach(node.childNodes, function (child) {
+        forEach(node.childNodes, function(child) {
             output(child, buffer, writer);
         });
-    }
-    else if (isTextNode(node)) {
+
+    } else if (isTextNode(node)) {
         addToBuffer(buffer, applyStyle(node), writer);
     }
+
     ensureLineBreakBetweenBlocks(node, buffer, writer);
 }
+
 function hasChildren(node) {
     return node.childNodes.length > 0;
 }
+
 function applyStyle(textNode) {
     var text = getText(textNode);
+
     switch (findStyle(textNode, 'textTransform')) {
         case 'uppercase':
             text = text.toUpperCase();
             break;
+
         case 'lowercase':
             text = text.toLowerCase();
             break;
+
         case 'capitalize':
-            text = text.replace(/\b[a-z]/g, function (char) {
+            text = text.replace(/\b[a-z]/g, function(char) {
                 return char.toUpperCase();
             });
             break;
     }
+
     var lines = text.split('\n');
-    var maxLineLength = lines.reduce(function (max, line) {
+    var maxLineLength = lines.reduce(function(max, line) {
         return line.length > max ? line.length : max;
     }, 0);
+
     var bgColor = findStyle(textNode, 'backgroundColor');
+
     var color = findStyle(textNode, 'color');
     if (color) {
         color = nearestColor(color);
@@ -157,23 +117,27 @@ function applyStyle(textNode) {
             lines = applySequence(lines, sequence);
         }
     }
+
     var fontStyle = findStyle(textNode, 'fontStyle');
     if (fontStyle === 'italic') {
         lines = applySequence(lines, styleSequences.italic);
     }
+
     var fontWeight = findStyle(textNode, 'fontWeight');
     if (fontWeight === 'bold') {
         lines = applySequence(lines, styleSequences.bold);
     }
+
     var textDecoration = findStyle(textNode, 'textDecoration');
     if (textDecoration === 'underline') {
         lines = applySequence(lines, styleSequences.underline);
-    }
-    else if (textDecoration === 'strikethrough') {
+    } else if (textDecoration === 'strikethrough') {
         lines = applySequence(lines, styleSequences.strikethrough);
     }
+
     return lines.join('\n');
 }
+
 /**
  * This is VERY stupid and deserves refactoring in the near future. Basically,
  * I structured colors and extendedColors differently; so if this is the name of
@@ -186,40 +150,51 @@ function applyStyle(textNode) {
  */
 function getColorSequence(name) {
     var sequence = colorSequences[name];
+
     if (!sequence) {
         sequence = ['\x1B[38;5;' + name + 'm', '\x1B[39m'];
     }
+
     return sequence;
 }
+
 function getBGColorSequence(name) {
     var sequence = bgColorSequences[name];
+
     if (!sequence) {
         sequence = ['\x1B[48;5;' + name + 'm', '\x1B[49m'];
     }
+
     return sequence;
 }
-function applySequence(lines, sequence, paddedWidth) {
-    return lines.map(function (line) {
+
+function applySequence(lines, sequence, paddedWidth?) {
+    return lines.map(function(line) {
         if (typeof paddedWidth != "undefined") {
             line = pad(line, paddedWidth);
         }
+
         return sequence[0] + line + sequence[1];
     });
 }
+
 function isElement(node) {
     return node && node.nodeType === 1;
 }
+
 function isTextNode(node) {
     return node && node.nodeType === 3;
 }
+
 function getText(textNode) {
     var text = textNode.textContent;
+
     if (findStyle(textNode, 'whiteSpace') !== 'pre') {
         text = text.replace(/\s+/g, ' ');
+
         if (isBetweenBlocks(textNode)) {
             text = text.replace(/^\s+|\s+$/g, '');
-        }
-        else {
+        } else {
             if (isFirstChild(textNode)) {
                 text = text.replace(/^\s+/, '');
             }
@@ -228,62 +203,79 @@ function getText(textNode) {
             }
         }
     }
+
     return text;
 }
+
 function getStyle(node) {
     if (!node) {
         return {};
     }
+
     var view = node.ownerDocument.defaultView;
+
     if (isTextNode(node)) {
         node = node.parentNode;
     }
+
     return isElement(node) ? view.getComputedStyle(node) : {};
 }
+
 function findStyle(node, property) {
     if (!node) {
         return null;
     }
+
     var view = node.ownerDocument.defaultView;
+
     if (isTextNode(node)) {
         node = node.parentNode;
     }
+
     var style = view.getComputedStyle(node);
     while (styleMissing(style, property)) {
         node = node.parentNode;
         if (!isElement(node)) {
             break;
         }
+
         style = view.getComputedStyle(node);
     }
+
     return style[property];
 }
+
 function styleMissing(style, property) {
     return !style[property];
 }
+
 function isFirstChild(textNode) {
     return textNode === textNode.parentNode.firstChild;
 }
+
 function isLastChild(textNode) {
     return textNode === textNode.parentNode.lastChild;
 }
+
 function isBlockElement(element) {
     if (isTextNode(element)) {
         return false;
     }
+
     var style = getStyle(element);
     return style.display === 'block';
 }
+
 function isBetweenBlocks(node) {
     return isBlockElement(node.previousSibling) && isBlockElement(node.nextSibling);
 }
+
 function addToBuffer(buffer, text, writer) {
-    if (!text) {
-        return;
-    }
+    if (!text) { return; }
     buffer.push(text);
     writer.write(text);
 }
+
 /**
  * Appends a new line to the buffer under all of the following conditions:
  *
@@ -297,18 +289,23 @@ function ensureLineBreakBetweenBlocks(node, buffer, writer) {
     if (!node.nextSibling) {
         return;
     }
+
     if (!isBlockElement(node.previousSibling) && !isBlockElement(node.nextSibling)) {
         return;
     }
+
     if (buffer.length === 0 || buffer[buffer.length - 1] === '\n') {
         return;
     }
+
     buffer.push('\n');
     writer.write('\n');
 }
+
 function forEach(collection, fn) {
     Array.prototype.forEach.call(collection, fn);
 }
+
 /**
  * This method exists because I was dumb and made extendedColors.json backwards.
  */
@@ -319,26 +316,10 @@ function invert(object) {
     }
     return inverted;
 }
+
 function pad(string, width) {
     while (string.length < width) {
         string += ' ';
     }
     return string;
 }
-/// <reference path="./typings/main.d.ts" />
-/// <reference path="./hlight.plugins.ts" />
-/// <reference path="./hlight.colors.ts" />
-/// <reference path="./hlight.original.ts" />
-var hlight = function (code, language) {
-    var hljs = require('highlight.js');
-    var html;
-    if (typeof language === "undefined") {
-        html = (hljs.highlight(language, code)).value;
-    }
-    else {
-        html = (hljs.highlightAuto(code)).value;
-    }
-    ;
-    return html2console('<pre class="hljs">' + html + '</pre>');
-};
-module.exports = hlight;

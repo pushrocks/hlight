@@ -124,3 +124,4 @@ declare function forEach(collection: any, fn: any): void;
  */
 declare function invert(object: any): {};
 declare function pad(string: any, width: any): any;
+declare var hlight: (code: string, language: string) => void;

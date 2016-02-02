@@ -1,4 +1,4 @@
-// Compiled using typings@0.6.4
+// Compiled using typings@0.6.5
 // Source: https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/browserify/browserify.d.ts
 // Type definitions for Browserify v12.0.1
 // Project: http://browserify.org/
