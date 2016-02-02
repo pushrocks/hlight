@@ -95,7 +95,7 @@ function htmlout(html, options) {
     });
 }
 var html2console = (function () {
-    var css = fs.readFileSync("./data/code.css");
+    var css = fs.readFileSync(path.resolve("./data/code.css"));
     return function (html) {
         var options = {};
         options.css = [];
