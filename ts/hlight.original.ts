@@ -13,7 +13,7 @@ var fs = require('fs'),
     jsdom = require('jsdom').jsdom,
     ConsoleWriter = require('writer.js').ConsoleWriter;
 
-var extendedColorsFile = path.join(__dirname, 'data', 'extendedColors.json'),
+var extendedColorsFile = path.join(paths.dataDir, 'extendedColors.json'),
     extendedColors = JSON.parse(fs.readFileSync(extendedColorsFile, 'utf8')),
     nearestColor = require('nearest-color').from(supportedColors).or(invert(extendedColors));
 
@@ -44,7 +44,7 @@ function htmlout(html, options) {
 }
 
 var html2console = (function() {
-    var css = fs.readFileSync(path.resolve("./data/code.css"));
+    var css = fs.readFileSync(path.join(paths.dataDir,"code.css"));
     return function(html) {
         var options:any = {};
         options.css = [];

@@ -1,5 +1,6 @@
 /// <reference path="./typings/main.d.ts" />
 /// <reference path="./hlight.plugins.ts" />
+/// <reference path="./hlight.paths.ts" />
 /// <reference path="./hlight.colors.ts" />
 /// <reference path="./hlight.original.ts" />
 var hlight = function (code, language) {

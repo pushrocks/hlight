@@ -1,6 +1,27 @@
 #!/usr/bin/env node
 
-/// <reference path="./index.ts" /> 
+/// <reference path="./index.ts" />
+var HlightPlugins;
+(function (HlightPlugins) {
+    HlightPlugins.init = function () {
+        var plugins = {
+            path: require("path")
+        };
+        return plugins;
+    };
+})(HlightPlugins || (HlightPlugins = {}));
+var plugins = HlightPlugins.init();
+/// <reference path="./index.ts" />
+var HlightPaths;
+(function (HlightPaths) {
+    HlightPaths.init = function () {
+        var paths = {};
+        paths.packageBase = plugins.path.resolve(__dirname);
+        paths.dataDir = plugins.path.join(paths.packageBase, "data/");
+        return paths;
+    };
+})(HlightPaths || (HlightPaths = {}));
+var paths = HlightPaths.init();
 /// <reference path="./index.ts" />
 var supportedColors = {
     white: '#fff',
@@ -70,7 +91,7 @@ var defaultStylesheet = 'div, h1, h2, h3, h4, h5, h6, p, pre { display: block; }
     'del, strike { text-decoration: strikethrough; }\n' +
     'pre { white-space: pre; }';
 var fs = require('fs'), path = require('path'), jsdom = require('jsdom').jsdom, ConsoleWriter = require('writer.js').ConsoleWriter;
-var extendedColorsFile = path.join(__dirname, 'data', 'extendedColors.json'), extendedColors = JSON.parse(fs.readFileSync(extendedColorsFile, 'utf8')), nearestColor = require('nearest-color').from(supportedColors).or(invert(extendedColors));
+var extendedColorsFile = path.join(paths.dataDir, 'extendedColors.json'), extendedColors = JSON.parse(fs.readFileSync(extendedColorsFile, 'utf8')), nearestColor = require('nearest-color').from(supportedColors).or(invert(extendedColors));
 /**
  * Takes in HTML and writes out text w/ escape sequences to style the text for
  * console output.
@@ -95,7 +116,7 @@ function htmlout(html, options) {
     });
 }
 var html2console = (function () {
-    var css = fs.readFileSync(path.resolve("./data/code.css"));
+    var css = fs.readFileSync(path.join(paths.dataDir, "code.css"));
     return function (html) {
         var options = {};
         options.css = [];
@@ -327,6 +348,7 @@ function pad(string, width) {
 }
 /// <reference path="./typings/main.d.ts" />
 /// <reference path="./hlight.plugins.ts" />
+/// <reference path="./hlight.paths.ts" />
 /// <reference path="./hlight.colors.ts" />
 /// <reference path="./hlight.original.ts" />
 var hlight = function (code, language) {

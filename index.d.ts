@@ -1,4 +1,16 @@
 /// <reference path="ts/typings/main.d.ts" />
+declare module HlightPlugins {
+    var init: () => {
+        path: any;
+    };
+}
+declare var plugins: {
+    path: any;
+};
+declare module HlightPaths {
+    var init: () => any;
+}
+declare var paths: any;
 declare var supportedColors: {
     white: string;
     black: string;
